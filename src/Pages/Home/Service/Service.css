@@ -1,0 +1,13 @@
+.service {
+    border: 1px solid gray;
+    width: 360px;
+    padding-bottom: 20px;
+    margin: 0 auto;
+
+}
+
+.service img {
+    display: block;
+    max-width: 100%;
+    margin-bottom: 16px;
+}
