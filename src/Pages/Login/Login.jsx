@@ -1,12 +1,15 @@
 import React, { useRef, useState } from 'react';
 import { Button, Form } from 'react-bootstrap';
+import { useSignInWithGoogle } from 'react-firebase-hooks/auth';
 import { useNavigate } from 'react-router-dom';
+import auth from '../../firebase.init';
 
 const Login = () => {
     const [validated, setValidated] = useState(false);
     const navigate = useNavigate()
     const emailRef = useRef('')
     const passwordRef = useRef('')
+    const [signInWithGoogle, user, loading, error] = useSignInWithGoogle(auth);
 
 
     const handleSubmit = (event) => {
@@ -23,6 +26,12 @@ const Login = () => {
         setValidated(true);
         console.log(email, password)
     };
+    const handleGoogle = (e) => {
+        e.preventDefault()
+        signInWithGoogle()
+            .then(res => console.log("done"))
+
+    }
     return (
         <div className='container w-50 mx-auto mt-4 border border-secondary rounded-2 p-5'>
             <h2 className='text-primary'>Please Login</h2>
@@ -47,6 +56,7 @@ const Login = () => {
                 </Button>
             </Form>
             <p className='text-center'>New to Genious Car ? <span className='text-decoration-underline text-danger text-bold fs-5' onClick={() => navigate("/register")} style={{ cursor: "pointer" }}>Register Yourself</span></p>
+            <h3 onClick={handleGoogle} className='text-center'>Continue with google</h3>
         </div>
     );
 };

@@ -1,9 +1,12 @@
 import React from 'react';
 import { Container, Nav, Navbar, NavDropdown } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
+import auth from '../../../firebase.init';
+import { useAuthState } from 'react-firebase-hooks/auth';
 import logo from "../../../images/others/logo.png"
 
 const Header = () => {
+    const [user] = useAuthState(auth)
     return (
         <Navbar bg="primary" expand="lg" sticky='top'>
             <Container >
@@ -29,6 +32,11 @@ const Header = () => {
                                 Something else here
                             </NavDropdown.Item>
                         </NavDropdown>
+                        {
+                            user && <Nav.Link className=' text-bold' as={Link} to="/manage" >
+                                <button className="btn btn-danger">Manage Serivice</button>
+                            </Nav.Link>
+                        }
                         <Nav.Link className='text-white text-bold' as={Link} to="/Login" >
                             Login
                         </Nav.Link>

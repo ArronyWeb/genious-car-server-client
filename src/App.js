@@ -9,6 +9,8 @@ import ServiceDetail from './Pages/ServiceDetail/ServiceDetail';
 import Notfound from './Pages/Shared/Notfound/Notfound';
 import Register from './Pages/Register/Register';
 import Login from './Pages/Login/Login';
+import Addservice from './Pages/Addservice/Addservice';
+import ManageServices from './Pages/MangeServices/ManageServices';
 
 function App() {
   return (
@@ -21,6 +23,8 @@ function App() {
         <Route path='/about' element={<About></About>}></Route>
         <Route path='/register' element={<Register></Register>}></Route>
         <Route path='/login' element={<Login></Login>}></Route>
+        <Route path='/addservice' element={<Addservice></Addservice>}></Route>
+        <Route path='/manage' element={<ManageServices></ManageServices>} />
         <Route path='*' element={<Notfound></Notfound>}></Route>
       </Routes>
       <Footer></Footer>

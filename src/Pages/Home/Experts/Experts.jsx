@@ -4,11 +4,11 @@ import Expert from '../Expert/Expert';
 
 const experts = [
     { id: 1, name: "Vicky Belly", img: "https://i.ibb.co/2NFQgcp/expert-1.jpg" },
-    { id: 1, name: "Harshit Mehta", img: "https://i.ibb.co/YXS0Xnj/expert-2.jpg" },
-    { id: 1, name: "Brad Johnson", img: "https://i.ibb.co/x6qN9nv/expert-3.jpg" },
-    { id: 1, name: "Milar Ishak", img: "https://i.ibb.co/7WjW2n4/expert-4.jpg" },
-    { id: 1, name: "Vinay Prote", img: "https://i.ibb.co/kcJpk8H/expert-5.jpg" },
-    { id: 1, name: "Yung Chi", img: "https://i.ibb.co/F0trY6m/expert-6.png" },
+    { id: 2, name: "Harshit Mehta", img: "https://i.ibb.co/YXS0Xnj/expert-2.jpg" },
+    { id: 3, name: "Brad Johnson", img: "https://i.ibb.co/x6qN9nv/expert-3.jpg" },
+    { id: 4, name: "Milar Ishak", img: "https://i.ibb.co/7WjW2n4/expert-4.jpg" },
+    { id: 5, name: "Vinay Prote", img: "https://i.ibb.co/kcJpk8H/expert-5.jpg" },
+    { id: 6, name: "Yung Chi", img: "https://i.ibb.co/F0trY6m/expert-6.png" },
 
 ]
 const Experts = () => {
