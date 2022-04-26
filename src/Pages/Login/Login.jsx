@@ -4,20 +4,20 @@ import { Button, Form } from 'react-bootstrap';
 import { useAuthState, useSignInWithEmailAndPassword, useSignInWithGoogle } from 'react-firebase-hooks/auth';
 import { useLocation, useNavigate } from 'react-router-dom';
 import auth from '../../firebase.init';
+import useToken from '../../hooks/useToekn';
 
 const Login = () => {
-    const [user] = useAuthState(auth)
     const [validated, setValidated] = useState(false);
     const location = useLocation()
     let from = location.state?.from?.pathname || '/'
     const navigate = useNavigate()
     const emailRef = useRef('')
     const passwordRef = useRef('')
-    const [signInWithGoogle] = useSignInWithGoogle(auth);
+    const [signInWithGoogle, user1] = useSignInWithGoogle(auth);
     const [
-        signInWithEmailAndPassword,
+        signInWithEmailAndPassword, user
     ] = useSignInWithEmailAndPassword(auth);
-
+    const [token] = useToken(user || user1)
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -26,36 +26,27 @@ const Login = () => {
         const form = e.currentTarget;
         await signInWithEmailAndPassword(email, password)
             .then(() => {
-                navigate(from, { replace: true })
+                if (token) {
+                    navigate(from, { replace: true })
+                }
             })
-        const { data } = await axios.post('https://safe-plateau-81677.herokuapp.com/login', { email })
-        localStorage.setItem("accessToken", JSON.stringify(data))
-        if (user) {
-            navigate('/home')
-        }
-        console.log(email, data)
+
+
+
         if (form.checkValidity() === false) {
             e.stopPropagation();
         }
 
         setValidated(true);
-        console.log(email, password)
     };
-    const handleGoogle = (e) => {
+    const handleGoogle = async (e) => {
         e.preventDefault()
-        signInWithGoogle()
-            .then(res => {
-                // const handleNavigate = async () => {
-                //     const email = user?.email
-                //     const { data } = await axios.post('https://safe-plateau-81677.herokuapp.com/login', email)
-                //     localStorage.setItem("accessToken", JSON.stringify(data))
-                //     navigate('/home')
-                //     console.log(email, data)
-                // }
-                // handleNavigate()
-                console.log(res)
+        await signInWithGoogle()
+            .then(() => {
+                if (token) {
+                    navigate(from, { replace: true })
+                }
             })
-
     }
     return (
         <div className='container w-50 mx-auto mt-4 border border-secondary rounded-2 p-5'>
@@ -64,9 +55,6 @@ const Login = () => {
                 <Form.Group className="mb-3" controlId="formBasicEmail">
                     <Form.Label>Email address</Form.Label>
                     <Form.Control ref={emailRef} type="email" placeholder="Enter email" required />
-                    <Form.Text className="text-muted">
-                        We'll never share your email with anyone else.
-                    </Form.Text>
                 </Form.Group>
 
                 <Form.Group className="mb-3" controlId="formBasicPassword">

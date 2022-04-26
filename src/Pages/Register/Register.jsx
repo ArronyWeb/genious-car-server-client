@@ -1,23 +1,30 @@
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import React, { useRef } from 'react';
 import { useAuthState, useCreateUserWithEmailAndPassword } from 'react-firebase-hooks/auth';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import auth from '../../firebase.init';
+import useToken from '../../hooks/useToekn';
 
 const Register = () => {
+
     const emailRef = useRef('')
     const passwordRef = useRef('')
     const navigate = useNavigate()
     const [
-        createUserWithEmailAndPassword
+        createUserWithEmailAndPassword, user
     ] = useCreateUserWithEmailAndPassword(auth);
+    const [token] = useToken(user);
+    const location = useLocation()
+    const from = location.state?.from?.pathname || '/'
     const handleSubmit = e => {
         e.preventDefault()
         const email = emailRef.current.value;
         const password = passwordRef.current.value;
         createUserWithEmailAndPassword(email, password)
             .then(res => {
-                console.log(res)
+                if (token) {
+                    navigate(from, { replace: true })
+                }
             })
 
     }
