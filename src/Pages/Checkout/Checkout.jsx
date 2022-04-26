@@ -10,7 +10,7 @@ const Checkout = () => {
     const { serviceId } = useParams()
     const [service, setService] = useState({})
     useEffect(() => {
-        fetch(`http://localhost:5000/service/${serviceId}`)
+        fetch(`https://safe-plateau-81677.herokuapp.com/service/${serviceId}`)
             .then(res => res.json())
             .then(data => setService(data))
     }, [])
@@ -19,12 +19,12 @@ const Checkout = () => {
         e.preventDefault()
         const order = {
             email: user?.email,
-            name: user?.displayName,
+            name: service.name,
             serviceId: serviceId,
             address: e.target.address.value,
             phone: e.target.phone.value,
         }
-        axios.post('http://localhost:5000/order', order)
+        axios.post('https://safe-plateau-81677.herokuapp.com/order', order)
             .then(res => {
                 const { data } = res;
                 if (data) {

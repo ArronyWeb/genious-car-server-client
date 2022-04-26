@@ -4,7 +4,7 @@ const Addservice = () => {
     const { register, handleSubmit } = useForm();
     const onSubmit = data => {
         console.log(data)
-        fetch('http://localhost:5000/service', {
+        fetch('https://safe-plateau-81677.herokuapp.com/service', {
             method: "POST",
             headers: {
                 'Content-Type': 'application/json',

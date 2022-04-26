@@ -28,7 +28,7 @@ const Login = () => {
             .then(() => {
                 navigate(from, { replace: true })
             })
-        const { data } = await axios.post('http://localhost:5000/login', { email })
+        const { data } = await axios.post('https://safe-plateau-81677.herokuapp.com/login', { email })
         localStorage.setItem("accessToken", JSON.stringify(data))
         if (user) {
             navigate('/home')
@@ -47,7 +47,7 @@ const Login = () => {
             .then(res => {
                 // const handleNavigate = async () => {
                 //     const email = user?.email
-                //     const { data } = await axios.post('http://localhost:5000/login', email)
+                //     const { data } = await axios.post('https://safe-plateau-81677.herokuapp.com/login', email)
                 //     localStorage.setItem("accessToken", JSON.stringify(data))
                 //     navigate('/home')
                 //     console.log(email, data)
