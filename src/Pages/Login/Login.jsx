@@ -1,26 +1,41 @@
+import axios from 'axios';
 import React, { useRef, useState } from 'react';
 import { Button, Form } from 'react-bootstrap';
-import { useSignInWithGoogle } from 'react-firebase-hooks/auth';
-import { useNavigate } from 'react-router-dom';
+import { useAuthState, useSignInWithEmailAndPassword, useSignInWithGoogle } from 'react-firebase-hooks/auth';
+import { useLocation, useNavigate } from 'react-router-dom';
 import auth from '../../firebase.init';
 
 const Login = () => {
+    const [user] = useAuthState(auth)
     const [validated, setValidated] = useState(false);
+    const location = useLocation()
+    let from = location.state?.from?.pathname || '/'
     const navigate = useNavigate()
     const emailRef = useRef('')
     const passwordRef = useRef('')
-    const [signInWithGoogle, user, loading, error] = useSignInWithGoogle(auth);
+    const [signInWithGoogle] = useSignInWithGoogle(auth);
+    const [
+        signInWithEmailAndPassword,
+    ] = useSignInWithEmailAndPassword(auth);
 
 
-    const handleSubmit = (event) => {
-        event.preventDefault();
+    const handleSubmit = async (e) => {
+        e.preventDefault();
         const email = emailRef.current.value;
         const password = passwordRef.current.value;
-        const form = event.currentTarget;
-
-
+        const form = e.currentTarget;
+        await signInWithEmailAndPassword(email, password)
+            .then(() => {
+                navigate(from, { replace: true })
+            })
+        const { data } = await axios.post('http://localhost:5000/login', { email })
+        localStorage.setItem("accessToken", JSON.stringify(data))
+        if (user) {
+            navigate('/home')
+        }
+        console.log(email, data)
         if (form.checkValidity() === false) {
-            event.stopPropagation();
+            e.stopPropagation();
         }
 
         setValidated(true);
@@ -29,7 +44,17 @@ const Login = () => {
     const handleGoogle = (e) => {
         e.preventDefault()
         signInWithGoogle()
-            .then(res => console.log("done"))
+            .then(res => {
+                // const handleNavigate = async () => {
+                //     const email = user?.email
+                //     const { data } = await axios.post('http://localhost:5000/login', email)
+                //     localStorage.setItem("accessToken", JSON.stringify(data))
+                //     navigate('/home')
+                //     console.log(email, data)
+                // }
+                // handleNavigate()
+                console.log(res)
+            })
 
     }
     return (

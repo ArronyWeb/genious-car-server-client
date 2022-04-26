@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import auth from '../../../firebase.init';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import logo from "../../../images/others/logo.png"
+import { signOut } from 'firebase/auth';
 
 const Header = () => {
     const [user] = useAuthState(auth)
@@ -33,13 +34,25 @@ const Header = () => {
                             </NavDropdown.Item>
                         </NavDropdown>
                         {
-                            user && <Nav.Link className=' text-bold' as={Link} to="/manage" >
-                                <button className="btn btn-danger">Manage Serivice</button>
-                            </Nav.Link>
+                            user && <>
+                                <Nav.Link className=' text-bold' as={Link} to="/manage" >
+                                    <button className="btn btn-danger">Manage Serivice</button>
+                                </Nav.Link>
+                                <Nav.Link className=' text-bold' as={Link} to="/orders" >
+                                    <button className="btn btn-danger">Orders</button>
+                                </Nav.Link>
+                            </>
                         }
-                        <Nav.Link className='text-white text-bold' as={Link} to="/Login" >
-                            Login
-                        </Nav.Link>
+                        {
+                            user ?
+                                <Nav.Link onClick={() => signOut(auth)} className='text-white text-bold btn btn-danger' as={Link} to="/Login" >
+                                    log out
+                                </Nav.Link>
+                                :
+                                <Nav.Link className='text-white text-bold' as={Link} to="/Login" >
+                                    Login
+                                </Nav.Link>
+                        }
                     </Nav>
                 </Navbar.Collapse>
             </Container>
